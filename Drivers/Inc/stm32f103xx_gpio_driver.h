@@ -68,11 +68,7 @@ void GPIOToggle(GPIO_RegDef_t *pGPIOx, uint8_t pin);
 
 
 // config alternate func
-
-
-// Interrupt handling
-void GPIOIRQConfig(void);
-void GPIOIRQHandler(void);
+void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN);
 
 
 

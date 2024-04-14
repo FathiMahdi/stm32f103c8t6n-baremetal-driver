@@ -384,3 +384,42 @@ void GPIOToggle(GPIO_RegDef_t *pGPIOx, uint8_t pin)
     pGPIOx->GPIO_ODR ^= (1<<pin);
 
 }
+
+void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN)
+{
+    if(EN==ENABLE)
+    {
+        if(IRQNumber<=31)
+        {
+            *NVIC_ISER0 |= (1<<IRQNumber);
+        }
+
+        else if(IRQNumber > 31 && IRQNumber < 64)
+        {
+            *NVIC_ISER1 |= (1<<IRQNumber%32);
+        }
+
+        else if(IRQNumber >= 64 && IRQNumber < 96)
+        {
+            *NVIC_ISER2 |= (1<<IRQNumber%64);
+        }
+    }
+
+    else
+    {
+        if(IRQNumber<=31)
+        {
+            *NVIC_ICER0 |= (1<<IRQNumber);
+        }
+
+        else if(IRQNumber > 31 && IRQNumber < 64)
+        {
+            *NVIC_ICER1 |= (1<<IRQNumber%32);
+        }
+
+        else if(IRQNumber >= 64 && IRQNumber < 96)
+        {
+            *NVIC_ICER2 |= (1<<IRQNumber%64);
+        }
+    }
+}

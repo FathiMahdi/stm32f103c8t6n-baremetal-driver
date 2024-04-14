@@ -6,8 +6,27 @@
 
 #define REGISTER_SIZE 32
 
+#define NVIC_ISER0        ((volatile uint32_t *)0xE000E100U)
+#define NVIC_ISER1        ((volatile uint32_t *)0xE000E104U)
+#define NVIC_ISER2        ((volatile uint32_t *)0xE000E108U)
+#define NVIC_ISER3        ((volatile uint32_t *)0xE000E10CU)
+// #define NVIC_ISER4        0xE000E100U
+// #define NVIC_ISER5        0xE000E100U
+// #define NVIC_ISER6        0xE000E100U
+// #define NVIC_ISER7        0xE000E11CU
 
-#define SYSTICK_BASE_ADD  0xe000e010u
+#define NVIC_ICER0        ((volatile uint32_t *)0XE000E180U)
+#define NVIC_ICER1        ((volatile uint32_t *)0xE000E104U)
+#define NVIC_ICER2        ((volatile uint32_t *)0xE000E108U)
+#define NVIC_ICER3        ((volatile uint32_t *)0xE000E10CU)
+// #define NVIC_ICER4        0xE000E100U
+// #define NVIC_ICER5        0xE000E100U
+// #define NVIC_ICER6        0xE000E100U
+// #define NVIC_ICER7        0xE000E19CU
+
+#define SYSTICK_BASE_ADD  0xE000E010U
+
+
 #define SYSTICK_ENABLE() (SYSTICK->STK_CTRL |= (1<<0)) 
 
 // Memory bus base address
