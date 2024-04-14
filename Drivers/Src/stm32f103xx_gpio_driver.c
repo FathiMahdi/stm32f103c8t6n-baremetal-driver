@@ -433,6 +433,6 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
 {
     uint32_t ipr_field = IRQNumber/4;
     uint32_t ipr_section = IRQNumber%4;
-    *(NVIC_IPR_BASE_ADD+ipr_field) |= (IRQPriority<<(8*ipr_section));
+    *(NVIC_IPR_BASE_ADD+(ipr_field*4)) |= (IRQPriority<<(8*ipr_section));
 
 }
