@@ -403,6 +403,8 @@ void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN)
         {
             *NVIC_ISER2 |= (1<<IRQNumber%64);
         }
+
+        GPIO_IRQPriorityConfig(IRQNumber, IRQPriority);
     }
 
     else
@@ -422,4 +424,15 @@ void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN)
             *NVIC_ICER2 |= (1<<IRQNumber%64);
         }
     }
+}
+
+/// @brief Interrupt priority config
+/// @param IRQNumber 
+/// @param IRQPriority 
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
+{
+    uint32_t ipr_field = IRQNumber/4;
+    uint32_t ipr_section = IRQNumber%4;
+    *(NVIC_IPR_BASE_ADD+ipr_field) |= (IRQPriority<<(8*ipr_section));
+
 }

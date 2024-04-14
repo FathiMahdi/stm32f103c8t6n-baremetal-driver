@@ -6,6 +6,7 @@
 
 #define REGISTER_SIZE 32
 
+#define NVIC_IPR_BASE_ADD ((volatile uint32_t *)0xE000E400U)
 #define NVIC_ISER0        ((volatile uint32_t *)0xE000E100U)
 #define NVIC_ISER1        ((volatile uint32_t *)0xE000E104U)
 #define NVIC_ISER2        ((volatile uint32_t *)0xE000E108U)

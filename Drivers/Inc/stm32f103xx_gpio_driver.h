@@ -69,6 +69,7 @@ void GPIOToggle(GPIO_RegDef_t *pGPIOx, uint8_t pin);
 
 // config alternate func
 void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN);
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
 
 
 
