@@ -88,6 +88,14 @@
 // SPI clock enable 
 #define SPI1_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<12))
 
+// EXTI IRQ position table
+#define IRQ_NO_EXTI0 6
+#define IRQ_NO_EXTI1 7
+#define IRQ_NO_EXTI2 8 
+#define IRQ_NO_EXTI3 9
+#define IRQ_NO_EXTI4 10
+#define IRQ_NO_EXTI9_5 23
+#define IRQ_NO_EXTI15_10 40
 
 
 #define ENABLE   1
