@@ -1,0 +1,6 @@
+../Src/main.c:14:6:NVIC_SysReset	16	static
+../Src/main.c:21:6:SystickEnable	4	static
+../Src/main.c:28:6:delay	16	static
+../Src/main.c:43:6:GPIOC_Init	32	static
+../Src/main.c:70:5:main	8	static
+../Src/main.c:116:6:SysTick_Handler	4	static

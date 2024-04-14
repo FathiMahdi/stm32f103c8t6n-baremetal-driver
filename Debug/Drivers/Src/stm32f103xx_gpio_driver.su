@@ -1,0 +1,5 @@
+../Drivers/Src/stm32f103xx_gpio_driver.c:8:6:GPIOClockControl	16	static
+../Drivers/Src/stm32f103xx_gpio_driver.c:92:6:GPIOInit	40	static
+../Drivers/Src/stm32f103xx_gpio_driver.c:343:6:GPIOWrite	16	static
+../Drivers/Src/stm32f103xx_gpio_driver.c:357:10:GPIORead	24	static
+../Drivers/Src/stm32f103xx_gpio_driver.c:382:6:GPIOToggle	16	static
