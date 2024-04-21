@@ -46,9 +46,12 @@ void GPIOC_Init(void)
 	GPIO_Handler_t GPIOC_conf;
 
 	GPIOB_conf.GPIO_PinCOnfig.PinNumber = 0;
-	GPIOB_conf.GPIO_PinCOnfig.PinMode = input_pullup_pull_down;
-	GPIOB_conf.GPIO_PinCOnfig.PinSpeed = reset;
+	GPIOB_conf.GPIO_PinCOnfig.PinMode = IT_RT;
+	GPIOB_conf.GPIO_PinCOnfig.PinSpeed = MHz_50;
 	GPIOB_conf.pGPIOx = GPIOB;
+
+	// Enable IRQ exti0 line
+	GPIO_IRQConfig(6, 1, ENABLE);
 
 	// enable portc clock
 	GPIOClockControl(GPIOB,ENABLE);
@@ -83,8 +86,9 @@ int main(void)
 //			GPIOWrite(GPIOC, 13, SET);
 
 			GPIOToggle(GPIOC, 13);
+			GPIOToggle(GPIOB, 0);
 
-			delay(10);
+			//delay(10);
 //		}
 
 //		else
@@ -93,10 +97,10 @@ int main(void)
 //		}
 //		GPIOWrite(GPIOB, 0, SET);
 //
-//		for(int i=0;i<72000;i++)
-//		{
-//			;
-//		}
+		for(int i=0;i<666666;i++)
+		{
+			;
+		}
 //
 //
 //		GPIOWrite(GPIOB, 0, RESET);
@@ -118,3 +122,31 @@ void SysTick_Handler(void)
 	count++;
 }
 
+
+void EXTI0_IRQHandler(void)
+{
+	// check the pr
+	GPIO_IRQHandler(0);
+}
+
+
+// void EXTI1_IRQHandler(void)
+// {
+	
+// }
+
+// void EXTI2_IRQHandler(void)
+// {
+	
+// }
+
+// void EXTI3_IRQHandler(void)
+// {
+	
+// }
+
+
+// void EXTI4_IRQHandler(void)
+// {
+	
+// }

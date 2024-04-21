@@ -3,3 +3,6 @@
 ../Drivers/Src/stm32f103xx_gpio_driver.c:343:6:GPIOWrite	3
 ../Drivers/Src/stm32f103xx_gpio_driver.c:357:10:GPIORead	2
 ../Drivers/Src/stm32f103xx_gpio_driver.c:382:6:GPIOToggle	1
+../Drivers/Src/stm32f103xx_gpio_driver.c:388:6:GPIO_IRQConfig	12
+../Drivers/Src/stm32f103xx_gpio_driver.c:432:6:GPIO_IRQPriorityConfig	1
+../Drivers/Src/stm32f103xx_gpio_driver.c:443:6:GPIO_IRQHandler	2

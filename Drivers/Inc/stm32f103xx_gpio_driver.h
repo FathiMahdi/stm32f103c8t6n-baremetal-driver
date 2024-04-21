@@ -72,5 +72,8 @@ void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN);
 void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
 
 
+void GPIO_IRQHandler(uint8_t PinNumber);
+
+
 
 #endif

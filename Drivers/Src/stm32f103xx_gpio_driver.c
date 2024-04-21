@@ -184,7 +184,7 @@ void GPIOInit(GPIO_Handler_t *GPIO_conf)
 
         if(GPIO_conf->pGPIOx == GPIOA)
         {
-            AFIO->AFIO_EXTICR[temp1] |= (0<<4*temp2);
+            AFIO->AFIO_EXTICR[temp1] &= ~(1<<4*temp2);
         }
 
         else if(GPIO_conf->pGPIOx == GPIOB)
@@ -238,7 +238,7 @@ void GPIOInit(GPIO_Handler_t *GPIO_conf)
 
         if(GPIO_conf->pGPIOx == GPIOA)
         {
-            AFIO->AFIO_EXTICR[temp1] |= (0<<4*temp2);
+            AFIO->AFIO_EXTICR[temp1] &= ~(1<<4*temp2);
         }
 
         else if(GPIO_conf->pGPIOx == GPIOB)
@@ -294,7 +294,7 @@ void GPIOInit(GPIO_Handler_t *GPIO_conf)
         
         if(GPIO_conf->pGPIOx == GPIOA)
         {
-            AFIO->AFIO_EXTICR[temp1] |= (0<<4*temp2);
+            AFIO->AFIO_EXTICR[temp1] &= ~(1<<4*temp2);
         }
 
         else if(GPIO_conf->pGPIOx == GPIOB)
@@ -434,5 +434,19 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
     uint32_t ipr_field = IRQNumber/4;
     uint32_t ipr_section = IRQNumber%4;
     *(NVIC_IPR_BASE_ADD+(ipr_field*4)) |= (IRQPriority<<(8*ipr_section));
+
+}
+
+
+/// @brief 
+/// @param PinNumber 
+void GPIO_IRQHandler(uint8_t PinNumber)
+{
+
+    // clear the pr register
+    if(EXTI->exti_PR & (1<<PinNumber))
+    {
+        EXTI->exti_PR |= (1<<PinNumber);
+    }
 
 }
