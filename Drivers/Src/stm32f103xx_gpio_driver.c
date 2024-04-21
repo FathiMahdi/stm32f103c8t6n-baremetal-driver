@@ -9,7 +9,12 @@ void GPIOClockControl(GPIO_RegDef_t *pGPIOx, uint8_t status)
 {
     if(status==ENABLE)
     {
-        if(pGPIOx == GPIOA)
+        if(pGPIOx==AFIO)
+        {
+            AFIO_CLOCK_EN();
+        }
+
+        else if(pGPIOx == GPIOA)
         {
             GPIOA_CLOCK_EN();
         }
@@ -221,10 +226,10 @@ void GPIOInit(GPIO_Handler_t *GPIO_conf)
     else if( GPIO_conf->GPIO_PinCOnfig.PinMode == IT_RT)
     {          
         // set GIO mode
-        // GPIO_conf->pGPIOx->GPIO_CRH |= (GPIO_conf->GPIO_PinCOnfig.PinMode<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)-REGISTER_SIZE-2));
+        //GPIO_conf->pGPIOx->GPIO_CRH |= (GPIO_conf->GPIO_PinCOnfig.PinMode<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)-REGISTER_SIZE-2));
         
         // // set gpio speed
-        // GPIO_conf->pGPIOx->GPIO_CRH &= ~(1<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)-REGISTER_SIZE));
+        GPIO_conf->pGPIOx->GPIO_CRH &= ~(1<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)-REGISTER_SIZE));
 
         EXTI->exti_RTSR |= (1<<GPIO_conf->GPIO_PinCOnfig.PinNumber);
 
@@ -243,7 +248,7 @@ void GPIOInit(GPIO_Handler_t *GPIO_conf)
 
         else if(GPIO_conf->pGPIOx == GPIOB)
         {
-            AFIO->AFIO_EXTICR[temp1] |= (1<<4*temp2);
+            AFIO->AFIO_EXTICR[temp1] |= (1<<4*temp2); 
         }
 
         else if(GPIO_conf->pGPIOx == GPIOC)

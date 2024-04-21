@@ -83,6 +83,7 @@
 
 
 // GPIO clock enable
+#define AFIO_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<0))
 #define GPIOA_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<2))
 #define GPIOB_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<3))
 #define GPIOC_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<4))
