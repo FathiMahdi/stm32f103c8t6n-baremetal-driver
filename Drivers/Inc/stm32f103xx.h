@@ -46,8 +46,8 @@
 #define I2C_1_BASE_ADD   0x40005400U  // I2C1 base address
 #define I2C_2_BASE_ADD   0x40005800U  // I2C2 base address
 #define SPI_1_BASE_ADD   0x40013000U  // SPI1 base address
-#define SPI_2_BASE_ADD   0x40003800U  // SPI2 base address
-#define SPI_3_BASE_ADD   0x40003C00U  // SPI3 base address
+// #define SPI_2_BASE_ADD   0x40003800U  // SPI2 base address
+// #define SPI_3_BASE_ADD   0x40003C00U  // SPI3 base address
 #define UART_1_BASE_ADD  0x40013800U  // USART1 base address
 #define USART_2_BASE_ADD 0x40004400U  // USART2 base address
 #define USART_3_BASE_ADD 0x40004800U  // USART3 base address
@@ -79,6 +79,7 @@
 #define  GPIOG   ((GPIO_RegDef_t *) GPIO_G_BASE_ADD)
 #define  EXTI    ((EXTI_RegDef_t *)  EXTI_BASE_ADD)
 #define  AFIO    ((AFIO_RegDef_t *) AFIO_BASE_ADD)
+#define  SPI1    ((SPI_RegDef_t  *) SPI_1_BASE_ADD)
 
 
 
@@ -91,6 +92,7 @@
 #define GPIOE_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<6))
 #define GPIOF_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<7))
 #define GPIOG_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<8))
+#define SPI1_CLOCK_EN() (RCC->RCC_ABP2BENR  |= (1<<12))
 
 #define GPIOA_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<2))
 #define GPIOB_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<3))
@@ -99,6 +101,7 @@
 #define GPIOE_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<6))
 #define GPIOF_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<7))
 #define GPIOG_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<8))
+#define SPI1_CLOCK_DS() (RCC->RCC_ABP2BENR  &= ~(1<<12))
 
 
 // ADC clock enable
@@ -165,6 +168,21 @@ typedef struct
     volatile uint32_t GPIO_BRR       ;// GPIO bit reset register register
     volatile uint32_t GPIO_LCKR      ;// GPIO lock register
 }GPIO_RegDef_t;
+
+
+typedef struct 
+{
+    uint32_t SPI_CR1;
+    uint32_t SPI_CR2;
+    uint32_t SPI_SR;
+    uint32_t SPI_DR;
+    uint32_t SPI_CRCPR;
+    uint32_t SPI_RXCRCR;
+    uint32_t SPI_TXCRCR;
+    uint32_t SPI_I2SCFGR;
+    uint32_t SPI_I2SPR;
+}SPI_RegDef_t;
+
 
 
 // GPIO
