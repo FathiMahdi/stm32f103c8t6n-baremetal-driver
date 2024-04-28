@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 #include "stm32f103xx_gpio_driver.h"
+#include "stm32f103xx_spi_driver.h"
 
 
 char myData[50];
@@ -13,6 +14,7 @@ void GPIOC_Init(void)
 {
 	GPIO_Handler_t GPIOB_conf;
 	GPIO_Handler_t GPIOC_conf;
+	SPI_Handle_t SPI1_conf;
 
 	GPIOB_conf.GPIO_PinCOnfig.PinNumber = 0;
 	GPIOB_conf.GPIO_PinCOnfig.PinMode = IT_RT;
@@ -38,6 +40,18 @@ void GPIOC_Init(void)
 
 	GPIOWrite(GPIOC,13,RESET);
 
+	SPI1_conf.SPIConfig.SPI_DeviceMode 		=  SPI_MASTER;
+	SPI1_conf.SPIConfig.SPI_CPHA  			=  0;
+	SPI1_conf.SPIConfig.SPI_CPOL  			=  0;
+	SPI1_conf.SPIConfig.SPI_DFF   			=  SPI_DFF_8_BIT;
+	SPI1_conf.SPIConfig.SSM       			=  DISABLE;
+	SPI1_conf.SPIConfig.SPI_BusConfig       =  SPI_FULLDUBLEX;
+	SPI1_conf.SPIConfig.SPI_CLKSpeed        =  F_PCLK_DIV_2;
+
+	// INITIALIZE SPI
+	SPI_Init(& SPI1_conf);
+
+
 
 }
 
@@ -47,6 +61,8 @@ int main(void)
 {
 
 	GPIOC_Init();
+
+	
 
 
 	while(1)

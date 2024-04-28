@@ -170,19 +170,6 @@ typedef struct
 }GPIO_RegDef_t;
 
 
-typedef struct 
-{
-    uint32_t SPI_CR1;
-    uint32_t SPI_CR2;
-    uint32_t SPI_SR;
-    uint32_t SPI_DR;
-    uint32_t SPI_CRCPR;
-    uint32_t SPI_RXCRCR;
-    uint32_t SPI_TXCRCR;
-    uint32_t SPI_I2SCFGR;
-    uint32_t SPI_I2SPR;
-}SPI_RegDef_t;
-
 
 
 // GPIO
