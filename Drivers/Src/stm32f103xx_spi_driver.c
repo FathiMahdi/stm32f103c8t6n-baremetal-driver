@@ -100,8 +100,48 @@ void SPI_Init(SPI_Handle_t *pSPIHandle)
 }
 
 
-
+/// @brief Send data through the SPI Bus
+/// @param pSPIx 
+/// @param Tx_data_buffer 
+/// @param data_len 
+/// @note polling mode
 void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *Tx_data_buffer, uint32_t data_len)
 {
-    
+    // polling mode
+    while(data_len>0)
+    {
+
+        // wait until the tx buffer is empty
+        while( !(pSPIx->SPI_SR & (1<<1)) );
+        
+        
+        // check the frame format
+        if(pSPIx->SPI_CR1 & (1<<11))
+        {
+            // send two bytes to the data register
+            pSPIx->SPI_DR = *((uint16_t *) Tx_data_buffer);
+
+            data_len--;
+
+            data_len--;
+
+            (uint16_t *)Tx_data_buffer++; // increment the buffer address
+
+        }
+
+        else
+        {
+            // send 1 byte to the data register
+            pSPIx->SPI_DR = *Tx_data_buffer;
+
+            data_len--;
+
+            Tx_data_buffer++;
+        }
+
+        
+
+
+    }
+
 }
