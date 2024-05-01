@@ -20,12 +20,12 @@ typedef enum
     output_open_drain      = 1,
     alternate_push_pull    = 2,
     alternate_open_drain   = 3,
-    input_analog_mode      = 0,
-    input_floating         = 1,
-    input_pullup_pull_down = 2,
-    IT_FT  = 3,
-    IT_RT  = 4,
-    IT_RFT = 5
+    input_analog_mode      = 4,
+    input_floating         = 5,
+    input_pullup_pull_down = 6,
+    IT_FT  = 7,
+    IT_RT  = 8,
+    IT_RFT = 8
 }GPIO_mode;
 
 

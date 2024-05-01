@@ -45,7 +45,7 @@
 
 #define I2C_1_BASE_ADD   0x40005400U  // I2C1 base address
 #define I2C_2_BASE_ADD   0x40005800U  // I2C2 base address
-#define SPI_1_BASE_ADD   0x40013000U  // SPI1 base address
+#define SPI_1_BASE_ADD   0x40013000U  // SPI1 base address  
 // #define SPI_2_BASE_ADD   0x40003800U  // SPI2 base address
 // #define SPI_3_BASE_ADD   0x40003C00U  // SPI3 base address
 #define UART_1_BASE_ADD  0x40013800U  // USART1 base address
@@ -79,7 +79,7 @@
 #define  GPIOG   ((GPIO_RegDef_t *) GPIO_G_BASE_ADD)
 #define  EXTI    ((EXTI_RegDef_t *)  EXTI_BASE_ADD)
 #define  AFIO    ((AFIO_RegDef_t *) AFIO_BASE_ADD)
-#define  SPI1    ((SPI_RegDef_t  *) SPI_1_BASE_ADD)
+#define  SPI1    ((SPI_RegDef_t  *) SPI_1_BASE_ADD) 
 
 
 

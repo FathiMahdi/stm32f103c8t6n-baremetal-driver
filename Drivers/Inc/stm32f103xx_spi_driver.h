@@ -27,13 +27,13 @@
 
 typedef struct 
 {
-    uint8_t SPI_DeviceMode;
-    uint8_t SPI_BusConfig;
-    uint8_t SPI_CLKSpeed;
-    uint8_t SPI_DFF;
-    uint8_t SPI_CPOL;
-    uint8_t SPI_CPHA;
-    uint8_t SSM;
+    volatile uint8_t SPI_DeviceMode;
+    volatile uint8_t SPI_BusConfig;
+    volatile uint8_t SPI_CLKSpeed;
+    volatile uint8_t SPI_DFF;
+    volatile uint8_t SPI_CPOL;
+    volatile uint8_t SPI_CPHA;
+    volatile uint8_t SSM;
 }SPI_Config_t;
 
 
@@ -49,6 +49,7 @@ typedef struct
 
 void SPI_ClockControl(SPI_RegDef_t *pSPIx, uint8_t status);
 void SPI_Init(SPI_Handle_t *pSPIHandle);
+void SPI_Enable(SPI_RegDef_t *pSPIx, uint8_t en_ds);
 void SPI_DeInit(SPI_RegDef_t *pSPIx );
 void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *Tx_data_buffer, uint32_t data_len);
 void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *Rx_data_buffer, uint32_t data_len);

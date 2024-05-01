@@ -90,6 +90,7 @@ void GPIOClockControl(GPIO_RegDef_t *pGPIOx, uint8_t status)
 }
 
  
+
 /// @brief GPIO initialization
 /// @param pGPIOx 
 /// @param mode 
@@ -278,7 +279,6 @@ void GPIOInit(GPIO_Handler_t *GPIO_conf)
         
     }
 
-
     else if( GPIO_conf->GPIO_PinCOnfig.PinMode == IT_RFT)
     {            
         // // set GIO mode
@@ -332,6 +332,64 @@ void GPIOInit(GPIO_Handler_t *GPIO_conf)
             AFIO->AFIO_EXTICR[temp1] |= (6<<4*temp2);
         }
             
+    }
+
+
+
+    else if (GPIO_conf->GPIO_PinCOnfig.PinMode == alternate_push_pull)
+    {
+   
+
+        if  (GPIO_conf->GPIO_PinCOnfig.PinNumber>7)
+        {
+            // set GIO mode CONF
+            GPIO_conf->pGPIOx->GPIO_CRH &= ~(1<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)-30));
+            GPIO_conf->pGPIOx->GPIO_CRH |= (2<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)-30));
+            
+            // set gpio speed MODE
+            GPIO_conf->pGPIOx->GPIO_CRH |= (1<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)-REGISTER_SIZE));
+        }
+
+        else if  (GPIO_conf->GPIO_PinCOnfig.PinNumber <= 7)
+        {
+            // set GIO mode CONF
+            GPIO_conf->pGPIOx->GPIO_CRL &= ~(1<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)+2));
+            GPIO_conf->pGPIOx->GPIO_CRL |= (2<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)+2));
+
+
+            // set the gpio speed
+            GPIO_conf->pGPIOx->GPIO_CRL |= (GPIO_conf->GPIO_PinCOnfig.PinSpeed<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)));
+   
+        }
+
+    }
+
+
+
+    else if (GPIO_conf->GPIO_PinCOnfig.PinMode == alternate_open_drain)
+    {
+   
+
+        if  (GPIO_conf->GPIO_PinCOnfig.PinNumber>7)
+        {
+            // set GIO mode CONF
+            GPIO_conf->pGPIOx->GPIO_CRH |= (3<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)-30));
+            
+            // set gpio speed MODE
+            GPIO_conf->pGPIOx->GPIO_CRH |= (1<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)-REGISTER_SIZE));
+        }
+
+        else if  (GPIO_conf->GPIO_PinCOnfig.PinNumber <= 7)
+        {
+            // set GIO mode CONF
+            GPIO_conf->pGPIOx->GPIO_CRL |= (3<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)+2));
+
+
+            // set the gpio speed
+            GPIO_conf->pGPIOx->GPIO_CRL |= (GPIO_conf->GPIO_PinCOnfig.PinSpeed<<(4*(GPIO_conf->GPIO_PinCOnfig.PinNumber)));
+   
+        }
+
     }
 
     

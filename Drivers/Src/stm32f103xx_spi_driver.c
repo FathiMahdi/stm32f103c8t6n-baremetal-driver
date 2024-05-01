@@ -16,40 +16,63 @@ void SPI_ClockControl(SPI_RegDef_t *pSPIx, uint8_t status)
 }
 
 
+void SPI_Enable(SPI_RegDef_t *pSPIx, uint8_t en_ds)
+{
+    if(en_ds==ENABLE)
+    {
+        // set the SPI enable
+        pSPIx->SPI_CR1 |= (1<<6);
+    }
+
+    else
+    {
+        // set the SPI enable
+        pSPIx->SPI_CR1 &= ~(1<<6);
+    }
+}
+
 void SPI_Init(SPI_Handle_t *pSPIHandle)
 {
 
     // set the CPHA
-    if(pSPIHandle->SPIConfig.SPI_CPHA == 1)
-    {
-        pSPIHandle->pSPIx->SPI_CR1 |= (1<<0);
-    }
+   if(pSPIHandle->SPIConfig.SPI_CPHA == 1)
+   {
+       pSPIHandle->pSPIx->SPI_CR1 |= (1<<0);
+   }
 
-    else
-    {
-        pSPIHandle->pSPIx->SPI_CR1 &= ~(1<<0);
-    } 
+   else
+   {
+       pSPIHandle->pSPIx->SPI_CR1 &= ~(1<<0);
+   }
 
 
-    // set the CPOL
-    if(pSPIHandle->SPIConfig.SPI_CPOL == 1)
-    {
-        pSPIHandle->pSPIx->SPI_CR1 |= (1<<1);
-    }
+   // set the CPOL
+   if(pSPIHandle->SPIConfig.SPI_CPOL == 1)
+   {
+       pSPIHandle->pSPIx->SPI_CR1 |= (1<<1);
+   }
 
-    else
-    {
-        pSPIHandle->pSPIx->SPI_CR1 &= ~(1<<1);
-    }  
+   else
+   {
+       pSPIHandle->pSPIx->SPI_CR1 &= ~(1<<1);
+   }
+
+
+    // Device mode
+   if(pSPIHandle->SPIConfig.SPI_DeviceMode == SPI_MASTER)
+   {
+       pSPIHandle->pSPIx->SPI_CR1 |= (1<<2);
+   }
+
+   else
+   {
+       pSPIHandle->pSPIx->SPI_CR1 &= ~(1<<2);
+   }
 
 
 
     // set the spi clock
     pSPIHandle->pSPIx->SPI_CR1 |= (pSPIHandle->SPIConfig.SPI_CLKSpeed<<3);
-
-
-    // set the SPI enable
-    pSPIHandle->pSPIx->SPI_CR1 |= (1<<6);
 
 
     // set software slave management

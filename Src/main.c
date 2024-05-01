@@ -12,33 +12,32 @@ volatile uint32_t count = 0;
 
 void GPIOC_Init(void)
 {
-	GPIO_Handler_t GPIOB_conf;
-	GPIO_Handler_t GPIOC_conf;
+
+	GPIO_Handler_t SPIPIN_conf;
 	SPI_Handle_t SPI1_conf;
 
-	GPIOB_conf.GPIO_PinCOnfig.PinNumber = 0;
-	GPIOB_conf.GPIO_PinCOnfig.PinMode = IT_RT;
-	GPIOB_conf.GPIO_PinCOnfig.PinSpeed = reset;
-	GPIOB_conf.pGPIOx = GPIOB;
-
-	// Enable IRQ exti0 line
-	GPIO_IRQConfig(IRQ_NO_EXTI0, 0, ENABLE);
 
 	// enable portc clock
 	GPIOClockControl(AFIO,ENABLE);
-	//GPIOClockControl(GPIOA,ENABLE);
-	GPIOClockControl(GPIOB,ENABLE);
-	GPIOClockControl(GPIOC,ENABLE);
+	GPIOClockControl(GPIOA,ENABLE);
+	SPI_ClockControl(SPI1,ENABLE);
 
-	GPIOInit(&GPIOB_conf);
+	// set SCK
+	SPIPIN_conf.GPIO_PinCOnfig.PinNumber = 5;
+	SPIPIN_conf.GPIO_PinCOnfig.PinMode = alternate_push_pull;
+	SPIPIN_conf.GPIO_PinCOnfig.PinSpeed = MHz_50;
+	SPIPIN_conf.pGPIOx = GPIOA;
+	GPIOInit(&SPIPIN_conf);
 
-	GPIOC_conf.GPIO_PinCOnfig.PinNumber = 13;
-	GPIOC_conf.GPIO_PinCOnfig.PinMode = output_push_pull;
-	GPIOC_conf.GPIO_PinCOnfig.PinSpeed = MHz_50;
-	GPIOC_conf.pGPIOx = GPIOC;
-	GPIOInit(&GPIOC_conf);
 
-	GPIOWrite(GPIOC,13,RESET);
+	// set MOSI
+	SPIPIN_conf.GPIO_PinCOnfig.PinNumber = 7;
+	SPIPIN_conf.GPIO_PinCOnfig.PinMode = alternate_push_pull;
+	SPIPIN_conf.GPIO_PinCOnfig.PinSpeed = MHz_50;
+	SPIPIN_conf.pGPIOx = GPIOA;
+	GPIOInit(&SPIPIN_conf);
+
+
 
 	SPI1_conf.SPIConfig.SPI_DeviceMode 		=  SPI_MASTER;
 	SPI1_conf.SPIConfig.SPI_CPHA  			=  0;
@@ -46,10 +45,18 @@ void GPIOC_Init(void)
 	SPI1_conf.SPIConfig.SPI_DFF   			=  SPI_DFF_8_BIT;
 	SPI1_conf.SPIConfig.SSM       			=  DISABLE;
 	SPI1_conf.SPIConfig.SPI_BusConfig       =  SPI_FULLDUBLEX;
-	SPI1_conf.SPIConfig.SPI_CLKSpeed        =  F_PCLK_DIV_2;
+	SPI1_conf.SPIConfig.SPI_CLKSpeed        =  F_PCLK_DIV_4;
+	SPI1_conf.pSPIx                         =  SPI1;
 
 	// INITIALIZE SPI
-	SPI_Init(& SPI1_conf);
+	SPI_Init(&SPI1_conf);
+
+
+
+
+
+	// No remap (NSS/PA4, SCK/PA5, MISO/PA6, MOSI/PA7)
+	// Remap (NSS/PA15, SCK/PB3, MISO/PB4, MOSI/PB5)
 
 
 
@@ -62,12 +69,22 @@ int main(void)
 
 	GPIOC_Init();
 
-	
+	char buff[] = "Hello, world";
 
+	SPI_Enable(SPI1,ENABLE);
+
+	SPI_SendData(SPI1,(uint8_t*)buff,strlen(buff));
+
+	SPI_Enable(SPI1,DISABLE);
 
 	while(1)
 	{
 
+		SPI_Enable(SPI1,ENABLE);
+
+		SPI_SendData(SPI1,(uint8_t*)buff,strlen(buff));
+
+		SPI_Enable(SPI1,DISABLE);
 
 		for(int i=0;i<666666;i++)
 		{
