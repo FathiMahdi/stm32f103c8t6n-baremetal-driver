@@ -48,11 +48,11 @@
 #define SPI_1_BASE_ADD   0x40013000U  // SPI1 base address  
 // #define SPI_2_BASE_ADD   0x40003800U  // SPI2 base address
 // #define SPI_3_BASE_ADD   0x40003C00U  // SPI3 base address
-#define UART_1_BASE_ADD  0x40013800U  // USART1 base address
-#define USART_2_BASE_ADD 0x40004400U  // USART2 base address
-#define USART_3_BASE_ADD 0x40004800U  // USART3 base address
-#define UART_5_BASE_ADD  0x40005000U  // UART5 base address
-#define UART_4_BASE_ADD  0x40004C00U  // UART4 base address
+#define USART_1_BASE_ADD  0x40013800U  // USART1 base address
+#define USART_2_BASE_ADD  0x40004400U  // USART2 base address
+#define USART_3_BASE_ADD  0x40004800U  // USART3 base address
+#define UART_5_BASE_ADD   0x40005000U  // UART5 base address
+#define UART_4_BASE_ADD   0x40004C00U  // UART4 base address
 
 
 // GPIO BASE ADDRESSES
@@ -80,6 +80,7 @@
 #define  EXTI    ((EXTI_RegDef_t *)  EXTI_BASE_ADD)
 #define  AFIO    ((AFIO_RegDef_t *) AFIO_BASE_ADD)
 #define  SPI1    ((SPI_RegDef_t  *) SPI_1_BASE_ADD) 
+#define  USART1  ((USART_RegDef_t  *) USART_1_BASE_ADD) 
 
 
 
@@ -93,6 +94,7 @@
 #define GPIOF_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<7))
 #define GPIOG_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<8))
 #define SPI1_CLOCK_EN() (RCC->RCC_ABP2BENR  |= (1<<12))
+#define USART1_CLOCK_EN() (RCC->RCC_ABP2BENR  |= (1<<14))
 
 #define GPIOA_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<2))
 #define GPIOB_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<3))
@@ -102,6 +104,7 @@
 #define GPIOF_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<7))
 #define GPIOG_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<8))
 #define SPI1_CLOCK_DS() (RCC->RCC_ABP2BENR  &= ~(1<<12))
+#define USART1_CLOCK_DS() (RCC->RCC_ABP2BENR  &= ~(1<<14))
 
 
 // ADC clock enable
@@ -155,6 +158,20 @@ typedef struct
     volatile uint32_t SPI_I2SCFGR  ;// SPI I2S configuration register
     volatile uint32_t SPI_I2SPR    ;// SPI I2S prescaller register
 }SPI_RegDef_t;
+
+
+
+typedef struct
+{
+	volatile uint32_t USART_SR;// SPI control register 1
+    volatile uint32_t USART_DR;// SPI control register 2
+    volatile uint32_t USART_BRR;// SPI status register
+    volatile uint32_t USART_CR1;// SPI data register 
+    volatile uint32_t USART_CR2;// SPI CRC polynomial register
+    volatile uint32_t USART_CR3;// SPI RX CRC register
+    volatile uint32_t USART_GTPR;// SPI TX CRC register
+}USART_RegDef_t;
+
 
 
 // GPIO
