@@ -3,7 +3,7 @@
 #include <string.h>
 #include "stm32f103xx_gpio_driver.h"
 #include "stm32f103xx_spi_driver.h"
-
+#include "stm32f103xx_uart.h"
 
 char myData[50];
 
@@ -58,9 +58,28 @@ void GPIOC_Init(void)
 	// No remap (NSS/PA4, SCK/PA5, MISO/PA6, MOSI/PA7)
 	// Remap (NSS/PA15, SCK/PB3, MISO/PB4, MOSI/PB5)
 
-
-
 }
+
+
+void UART1_Init(void)
+{
+	// pin configuration
+
+	// clock configurations
+	UART_Handle_t UART1_Conf;
+
+	UART1_Conf.pUSARTx = USART1;
+	UART1_Conf.UARTConfig.USART_WordLength  = BITS_8;
+	UART1_Conf.UARTConfig.USART_BoaudRate = BAUD_115200;
+	UART1_Conf.UARTConfig.USART_Mode = USART_TX;
+	UART1_Conf.UARTConfig.USART_StopBits = STB_1;
+	UART1_Conf.UARTConfig.USART_ParityControl = NO_PARITY;
+	UART1_Conf.UARTConfig.USART_HardwareFlowControl = HWFC_NONE;
+
+	UART_Init(&UART1_Conf);
+}
+
+
 
 uint8_t value = 0;
 
@@ -68,6 +87,7 @@ int main(void)
 {
 
 	GPIOC_Init();
+	UART1_Init();
 
 	char buff[] = "Hello, world";
 
@@ -86,7 +106,7 @@ int main(void)
 
 		SPI_Enable(SPI1,DISABLE);
 
-		for(int i=0;i<666666;i++)
+		for(int i=0;i<66666;i++)
 		{
 			;
 		}
