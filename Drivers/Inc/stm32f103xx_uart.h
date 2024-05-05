@@ -103,8 +103,9 @@ void USART_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDs);
 void USART_IRQPriorityConfig(uint8_t IRQNumber, uint32_t priority);
 void UART_Init(UART_Handle_t *USARTx);
 void UART_Deinit(UART_Handle_t *USARTx);
-void UART_SendData(USART_RegDef_t *pUSARTx);
-void UART_ReceiveData(USART_RegDef_t *pUSARTx);
-
+void USART_SendData(UART_Handle_t *pUSARTHandle, uint8_t *pTxBuffer, uint32_t Len);
+void USART_ReceiveData(UART_Handle_t *pUSARTHandle, uint8_t *pRxBuffer, uint32_t Len);
+uint8_t USART_ReceiveDataIT(UART_Handle_t *pUSARTHandle,uint8_t *pRxBuffer, uint32_t Len);
+uint8_t USART_SendDataIT(UART_Handle_t *pUSARTHandle,uint8_t *pTxBuffer, uint32_t Len);
 
 #endif
