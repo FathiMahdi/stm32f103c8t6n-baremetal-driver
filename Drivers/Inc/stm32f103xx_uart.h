@@ -61,6 +61,13 @@ typedef enum
     NO_PARITY         = 2,
 }USART_PARITY_BIT;
 
+
+typedef enum
+{
+    UART_OVERSAMPLING_16        = 0,
+    UART_OVERSAMPLING_8         = 1,
+}USART_OVERSAMPLING;
+
 typedef enum
 {
     PE = 0,
@@ -80,6 +87,7 @@ typedef struct
  uint8_t USART_Mode;
  int     USART_BoaudRate;
  uint8_t USART_WordLength;
+ uint8_t USART_OVERSAMPLING;
  uint8_t USART_StopBits;
  uint8_t USART_ParityControl;
  uint8_t USART_HardwareFlowControl;

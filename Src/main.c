@@ -71,6 +71,7 @@ void UART1_Init(void)
 	UART1_Conf.pUSARTx = USART1;
 	UART1_Conf.UARTConfig.USART_WordLength  = BITS_8;
 	UART1_Conf.UARTConfig.USART_BoaudRate = BAUD_115200;
+	UART1_Conf.UARTConfig.USART_OVERSAMPLING = UART_OVERSAMPLING_16;
 	UART1_Conf.UARTConfig.USART_Mode = USART_TX;
 	UART1_Conf.UARTConfig.USART_StopBits = STB_1;
 	UART1_Conf.UARTConfig.USART_ParityControl = NO_PARITY;
@@ -87,7 +88,7 @@ int main(void)
 {
 
 	GPIOC_Init();
-	UART1_Init();
+	// UART1_Init();
 
 	char buff[] = "Hello, world";
 

@@ -168,3 +168,45 @@ void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *Tx_data_buffer, uint32_t data_le
     }
 
 }
+
+/// @brief 
+/// @param pSPIx 
+/// @param Rx_data_buffer 
+/// @param data_len 
+void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *Rx_data_buffer, uint32_t data_len)
+{
+    // polling mode
+    while(data_len>0)
+    {
+
+        // wait until the rx buffer is empty
+        while( !(pSPIx->SPI_SR & (1<<0)) );
+        
+        
+        // check the frame format
+        if(pSPIx->SPI_CR1 & (1<<11))
+        {
+            // recive two bytes to the data register
+            *((uint16_t *) Rx_data_buffer) = pSPIx->SPI_DR;
+
+            data_len--;
+
+            data_len--;
+
+            (uint16_t *)Rx_data_buffer++; // increment the buffer address
+
+        }
+
+        else
+        {
+            // receive 1 byte to the data register
+            *Rx_data_buffer = pSPIx->SPI_DR;
+
+            data_len--;
+
+            Rx_data_buffer++;
+        }
+
+
+    }
+}
