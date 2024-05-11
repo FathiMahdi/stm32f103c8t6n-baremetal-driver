@@ -352,13 +352,14 @@ static void spi_tx_it_handle(SPI_Handle_t *pSPIHandle)
 
         pSPIHandle->pTxBuffer++;
     }
-
+    
+    // ! الكود ده مجعبص
     if(pSPIHandle->TxLen==0)
     {
         pSPIHandle->pSPIx->SPI_CR2 &= ~(1<<7);
         pSPIHandle->pTxBuffer = NULL;
         pSPIHandle->TxState = SPI_READY;
-        spi_ApplicationEventCallback(pSPIHandle,SPI_CMPLT_TX);
+        spi_ApplicationEventCallback(pSPIHandle,SPI_CMPLT_TX); //    جعبصة  
     }
 
 }
