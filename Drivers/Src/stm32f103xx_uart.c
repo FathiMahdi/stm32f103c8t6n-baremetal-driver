@@ -372,6 +372,6 @@ uint8_t USART_SendDataIT(UART_Handle_t *pUSARTHandle,uint8_t *pTxBuffer, uint32_
 
 	// }
 
-	return txstate;
+	//return txstate;
 
 }

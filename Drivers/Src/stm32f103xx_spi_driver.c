@@ -210,3 +210,99 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *Rx_data_buffer, uint32_t data
 
     }
 }
+
+
+
+
+/// @brief 
+/// @param IRQNumber 
+/// @param IRQPriority 
+/// @param EN 
+void SPI_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN)
+{
+    if(EN==ENABLE)
+    {
+        if(IRQNumber<=31)
+        {
+            *NVIC_ISER0 |= (1<<IRQNumber);
+        }
+
+        else if(IRQNumber > 31 && IRQNumber < 64)
+        {
+            *NVIC_ISER1 |= (1<<IRQNumber%32);
+        }
+
+        else if(IRQNumber >= 64 && IRQNumber < 96)
+        {
+            *NVIC_ISER2 |= (1<<IRQNumber%64);
+        }
+
+        SPI_IRQInterruptProorityConfig(IRQNumber, IRQPriority);
+    }
+
+    else
+    {
+        if(IRQNumber<=31)
+        {
+            *NVIC_ICER0 |= (1<<IRQNumber);
+        }
+
+        else if(IRQNumber > 31 && IRQNumber < 64)
+        {
+            *NVIC_ICER1 |= (1<<IRQNumber%32);
+        }
+
+        else if(IRQNumber >= 64 && IRQNumber < 96)
+        {
+            *NVIC_ICER2 |= (1<<IRQNumber%64);
+        }
+    }
+}
+
+
+
+/// @brief Interrupt priority config
+/// @param IRQNumber 
+/// @param IRQPriority 
+void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
+{
+    uint32_t ipr_field = IRQNumber/4;
+    uint32_t ipr_section = IRQNumber%4;
+    *(NVIC_IPR_BASE_ADD+(ipr_field*4)) |= (IRQPriority<<(8*ipr_section));
+
+}
+
+
+
+/// @brief 
+/// @param pSPIHandle 
+/// @param Tx_data_buffer 
+/// @param data_len 
+SPI_IT_STATUS SPI_SendDataIt(SPI_Handle_t *pSPIHandle, uint8_t *Tx_data_buffer, uint32_t data_len)
+{
+
+    if(pSPIHandle->TxState != SPI_BUSSY_TX)
+    {
+        // Save the tx buffer
+        pSPIHandle->pTxBuffer = Tx_data_buffer;
+        pSPIHandle->TxLen = data_len;
+
+        // Mark the spi TX as bussy
+        pSPIHandle->TxState = SPI_BUSSY_TX;
+
+        // enable the TXIE
+        pSPIHandle->pSPIx->SPI_CR2 |= (1<<7);
+    }
+    
+    return pSPIHandle->TxState;
+}
+
+
+/// @brief 
+/// @param pSPIHandle 
+/// @param Tx_data_buffer 
+/// @param data_len 
+void SPI_ReceiveDataIt(SPI_Handle_t *pSPIHandle, uint8_t *Tx_data_buffer, uint32_t data_len)
+{
+
+}

@@ -25,6 +25,16 @@
 #define F_PCLK_DIV_256          7
 
 
+
+typedef enum
+{
+    SPI_READY = 0,
+    SPI_BUSSY_RX = 1,
+    SPI_BUSSY_TX = 2
+}SPI_IT_STATUS;
+
+
+
 typedef struct 
 {
     volatile uint8_t SPI_DeviceMode;
@@ -44,6 +54,12 @@ typedef struct
 {
     SPI_RegDef_t *pSPIx;
     SPI_Config_t SPIConfig;
+    uint8_t *pTxBuffer;
+    uint8_t *pRxBuffer;
+    uint32_t TxLen;
+    uint32_t RxLen;
+    uint8_t TxState;
+    uint8_t RxState;
 }SPI_Handle_t;
 
 
@@ -52,8 +68,12 @@ void SPI_Init(SPI_Handle_t *pSPIHandle);
 void SPI_Enable(SPI_RegDef_t *pSPIx, uint8_t en_ds);
 void SPI_DeInit(SPI_RegDef_t *pSPIx );
 void SPI_SendData(SPI_RegDef_t *pSPIx, uint8_t *Tx_data_buffer, uint32_t data_len);
+void SPI_SendDataIt(SPI_Handle_t *pSPIHandle, uint8_t *Tx_data_buffer, uint32_t data_len);
+void SPI_ReceiveDataIt(SPI_Handle_t *pSPIHandle, uint8_t *Tx_data_buffer, uint32_t data_len);
 void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *Rx_data_buffer, uint32_t data_len);
 void SPI_IRQHandler(SPI_Handle_t *pSPIHandle );
+void SPI_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN);
+void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
 
 
 #endif
