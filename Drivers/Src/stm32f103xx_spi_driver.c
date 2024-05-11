@@ -1,5 +1,8 @@
 #include "stm32f103xx_spi_driver.h"
 
+static void spi_tx_it_handle(SPI_Handle_t *pSPIHandle);
+static void spi_rx_it_handle(SPI_Handle_t *pSPIHandle);
+
 
 void SPI_ClockControl(SPI_RegDef_t *pSPIx, uint8_t status)
 {
@@ -318,4 +321,104 @@ SPI_IT_STATUS SPI_ReceiveDataIt(SPI_Handle_t *pSPIHandle, uint8_t *Rx_data_buffe
     }
     
     return pSPIHandle->RxState;
+}
+
+
+
+static void spi_tx_it_handle(SPI_Handle_t *pSPIHandle)
+{
+
+    
+    // check the frame format
+    if(pSPIHandle->pSPIx->SPI_CR1 & (1<<11))
+    {
+        // send two bytes to the data register
+        pSPIHandle->pSPIx->SPI_DR = *((uint16_t *) pSPIHandle->pTxBuffer);
+
+        pSPIHandle->TxLen--;
+
+        pSPIHandle->TxLen--;
+
+        (uint16_t *)pSPIHandle->pTxBuffer++; // increment the buffer address
+
+    }
+
+    else
+    {
+        // send 1 byte to the data register
+        pSPIHandle->pSPIx->SPI_DR = *pSPIHandle->pTxBuffer;
+
+        pSPIHandle->TxLen--;
+
+        pSPIHandle->pTxBuffer++;
+    }
+
+    if(pSPIHandle->TxLen==0)
+    {
+        pSPIHandle->pSPIx->SPI_CR2 &= ~(1<<7);
+        pSPIHandle->pTxBuffer = NULL;
+        pSPIHandle->TxState = SPI_READY;
+        spi_ApplicationEventCallback(pSPIHandle,SPI_CMPLT_TX);
+    }
+
+}
+
+
+static void spi_rx_it_handle(SPI_Handle_t *pSPIHandle)
+{
+    // check the frame format
+    if(pSPIHandle->pSPIx->SPI_CR1 & (1<<11))
+    {
+        // recive two bytes to the data register
+        *((uint16_t *) pSPIHandle->pRxBuffer) = pSPIHandle->pSPIx->SPI_DR;
+
+        pSPIHandle->RxLen--;
+
+        pSPIHandle->RxLen--;
+
+        (uint16_t *)pSPIHandle->pRxBuffer++; // increment the buffer address
+
+    }
+
+    else
+    {
+        // receive 1 byte to the data register
+        *pSPIHandle->pRxBuffer = pSPIHandle->pSPIx->SPI_DR;
+
+        pSPIHandle->RxLen--;
+
+        pSPIHandle->pRxBuffer++;
+    }
+
+    
+    // Disable the Rx interrupt
+    if(pSPIHandle->RxLen==0)
+    {
+        pSPIHandle->pSPIx->SPI_CR2 &= ~(1<<6);
+        pSPIHandle->pRxBuffer = NULL;
+        pSPIHandle->RxState = SPI_READY;
+        spi_ApplicationEventCallback(pSPIHandle,SPI_CMPLT_RX);
+    }
+}
+
+
+
+void SPI1_IRQHandler(SPI_Handle_t *pSPIHandle)
+{
+	// check if tx
+
+	if((pSPIHandle->pSPIx->SPI_SR & (1<<1)) && (pSPIHandle->pSPIx->SPI_CR2 & (1<<7)))
+	{
+		spi_tx_it_handle(pSPIHandle);
+	}
+
+
+	// check if rx
+	else if((pSPIHandle->pSPIx->SPI_SR & (1<<0)) && (pSPIHandle->pSPIx->SPI_CR2 & (1<<6)))
+	{
+		spi_rx_it_handle(pSPIHandle);
+	}
+
+	// check if error
+
 }

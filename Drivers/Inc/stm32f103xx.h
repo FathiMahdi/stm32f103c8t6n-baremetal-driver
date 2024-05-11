@@ -2,7 +2,7 @@
 #define STM32F103XX_H_
 
 #include <stdint.h>
-
+#include <stddef.h>
 
 #define REGISTER_SIZE 32
 

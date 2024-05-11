@@ -133,10 +133,6 @@ void EXTI0_IRQHandler(void)
 	GPIOToggle(GPIOC, 13);
 }
 
-void SPI1_IRQHandler(void)
-{
-	
-}
 
 
 // void EXTI1_IRQHandler(void)

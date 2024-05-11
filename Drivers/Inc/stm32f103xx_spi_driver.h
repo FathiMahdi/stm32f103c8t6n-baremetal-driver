@@ -30,7 +30,9 @@ typedef enum
 {
     SPI_READY = 0,
     SPI_BUSSY_RX = 1,
-    SPI_BUSSY_TX = 2
+    SPI_BUSSY_TX = 2,
+    SPI_CMPLT_TX = 3,
+    SPI_CMPLT_RX = 4,
 }SPI_IT_STATUS;
 
 
