@@ -307,11 +307,11 @@ SPI_IT_STATUS SPI_ReceiveDataIt(SPI_Handle_t *pSPIHandle, uint8_t *Rx_data_buffe
     if(pSPIHandle->RxState != SPI_BUSSY_RX)
     {
         // Save the tx buffer
-        pSPIHandle->pTxBuffer = Rx_data_buffer;
-        pSPIHandle->TxLen = data_len;
+        pSPIHandle->pRxBuffer = Rx_data_buffer;
+        pSPIHandle->RxLen = data_len;
 
         // Mark the spi TX as bussy
-        pSPIHandle->TxState = SPI_BUSSY_RX;
+        pSPIHandle->RxState = SPI_BUSSY_RX;
 
         // enable the TXIE
         pSPIHandle->pSPIx->SPI_CR2 |= (1<<6);
