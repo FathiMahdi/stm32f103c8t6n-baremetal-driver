@@ -240,7 +240,7 @@ void SPI_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN)
             *NVIC_ISER2 |= (1<<IRQNumber%64);
         }
 
-        SPI_IRQInterruptProorityConfig(IRQNumber, IRQPriority);
+        SPI_IRQPriorityConfig(IRQNumber, IRQPriority);
     }
 
     else
@@ -421,5 +421,12 @@ void SPI1_IRQHandler(SPI_Handle_t *pSPIHandle)
 	}
 
 	// check if error
+
+}
+
+
+
+__attribute__((weak)) spi_ApplicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t event)
+{
 
 }

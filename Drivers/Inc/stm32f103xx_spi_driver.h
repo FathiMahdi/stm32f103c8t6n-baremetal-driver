@@ -76,6 +76,5 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx, uint8_t *Rx_data_buffer, uint32_t data
 void SPI_IRQHandler(SPI_Handle_t *pSPIHandle );
 void SPI_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN);
 void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
-
-
+__attribute__((weak)) spi_ApplicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t event);
 #endif
