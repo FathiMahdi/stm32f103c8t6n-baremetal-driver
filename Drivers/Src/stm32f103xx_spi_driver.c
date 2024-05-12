@@ -426,7 +426,3 @@ void SPI1_IRQHandler(SPI_Handle_t *pSPIHandle)
 
 
 
-__attribute__((weak)) spi_ApplicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t event)
-{
-
-}

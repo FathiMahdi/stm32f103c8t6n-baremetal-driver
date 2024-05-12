@@ -81,6 +81,8 @@
 #define  AFIO    ((AFIO_RegDef_t *) AFIO_BASE_ADD)
 #define  SPI1    ((SPI_RegDef_t  *) SPI_1_BASE_ADD) 
 #define  USART1  ((USART_RegDef_t  *) USART_1_BASE_ADD) 
+#define  I2C1    ((I2C_RegDef_t *) I2C_1_BASE_ADD) 
+#define  I2C2    ((I2C_RegDef_t *) I2C_2_BASE_ADD) 
 
 
 
@@ -95,6 +97,8 @@
 #define GPIOG_CLOCK_EN() (RCC->RCC_ABP2BENR |= (1<<8))
 #define SPI1_CLOCK_EN() (RCC->RCC_ABP2BENR  |= (1<<12))
 #define USART1_CLOCK_EN() (RCC->RCC_ABP2BENR  |= (1<<14))
+#define I2C_1_CLOCK_EN() (RCC->RCC_ABP1BENR  |= (1<<21))
+#define I2C_2_CLOCK_EN() (RCC->RCC_ABP1BENR  |= (1<<22))
 
 #define GPIOA_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<2))
 #define GPIOB_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<3))
@@ -105,6 +109,8 @@
 #define GPIOG_CLOCK_DS() (RCC->RCC_ABP2BENR &= ~(1<<8))
 #define SPI1_CLOCK_DS() (RCC->RCC_ABP2BENR  &= ~(1<<12))
 #define USART1_CLOCK_DS() (RCC->RCC_ABP2BENR  &= ~(1<<14))
+#define I2C_1_CLOCK_DS() (RCC->RCC_ABP1BENR  &= ~(1<<21))
+#define I2C_2_CLOCK_DS() (RCC->RCC_ABP1BENR  &= ~(1<<22))
 
 
 // ADC clock enable
@@ -160,6 +166,20 @@ typedef struct
     volatile uint32_t SPI_I2SPR    ;// SPI I2S prescaller register
 }SPI_RegDef_t;
 
+
+
+typedef struct
+{
+    volatile uint32_t I2C_CR1;
+    volatile uint32_t I2C_CR2;
+    volatile uint32_t I2C_OAR1;
+    volatile uint32_t I2C_OAR2;
+    volatile uint32_t I2C_DR;
+    volatile uint32_t I2C_SR1;
+    volatile uint32_t I2C_SR2;
+    volatile uint32_t I2C_CRR;
+    volatile uint32_t I2C_TRISE;
+}I2C_RegDef_t;
 
 
 typedef struct

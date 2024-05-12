@@ -9,14 +9,15 @@ char myData[50];
 
 volatile uint32_t count = 0;
 
+SPI_Handle_t SPI1_conf;
+GPIO_Handler_t SPIPIN_conf;
+
+
 
 void GPIOC_Init(void)
 {
 
-	GPIO_Handler_t SPIPIN_conf;
-	SPI_Handle_t SPI1_conf;
-
-
+	
 	// enable portc clock
 	GPIOClockControl(AFIO,ENABLE);
 	GPIOClockControl(GPIOA,ENABLE);
@@ -88,24 +89,18 @@ int main(void)
 {
 
 	GPIOC_Init();
-	// UART1_Init();
+	
 
 	char buff[] = "Hello, world";
 
 	SPI_Enable(SPI1,ENABLE);
 
-	SPI_SendData(SPI1,(uint8_t*)buff,strlen(buff));
+	SPI_SendDataIt(&SPI1_conf,(uint8_t*)buff,strlen(buff));
 
 	SPI_Enable(SPI1,DISABLE);
 
 	while(1)
 	{
-
-		SPI_Enable(SPI1,ENABLE);
-
-		SPI_SendData(SPI1,(uint8_t*)buff,strlen(buff));
-
-		SPI_Enable(SPI1,DISABLE);
 
 		for(int i=0;i<66666;i++)
 		{
@@ -134,6 +129,11 @@ void EXTI0_IRQHandler(void)
 }
 
 
+
+void spi_ApplicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t event)
+{
+	return;
+}
 
 // void EXTI1_IRQHandler(void)
 // {
