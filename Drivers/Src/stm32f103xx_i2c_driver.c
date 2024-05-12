@@ -21,28 +21,66 @@ void I2C_Enable(I2C_RegDef_t *pSPIx, uint8_t en_ds)
 
 
 /// @brief 
-/// @param pSPIHandle 
-void I2C_Init(I2C_Handle_t *pSPIHandle)
+/// @param pI2CHandle 
+void I2C_Init(I2C_Handle_t *pI2CHandle)
 {
     // configure the mode
-    uint32_t PCLK1 = RCC_GetPCLK1();
-    
+    uint32_t PCLK1 = RCC_GetPCLK1() / 1000000U;
+    pI2CHandle->pI2Cx->I2C_CR2 = (PCLK1 & 0x3F);
+
     // configure the speed
+    uint16_t ccr_value = 0;
 
-    // configure the device address
-
-    // enable/disablr the ACK
-    if(pSPIHandle->I2CConfig.ack_control == I2C_ACK_ENABLE)
-    {
-        pSPIHandle->pI2Cx->I2C_CR1 |= (1<<10);
+    if(pI2CHandle->I2CConfig.speed == I2C_STANDARD_SPEED)
+    {   
+        // set I2C standard mode
+        pI2CHandle->pI2Cx->I2C_CRR &= ~(1<<15);
+        ccr_value =  (RCC_GetPCLK1() /(2*pI2CHandle->I2CConfig.speed));
+        
     }
 
     else
     {
-        pSPIHandle->pI2Cx->I2C_CR1 &= ~(1<<10);
+        // set I2C fast mode
+        pI2CHandle->pI2Cx->I2C_CRR |= (1<<15);
+        pI2CHandle->pI2Cx->I2C_CRR |= (pI2CHandle->I2CConfig.fm_duty_cycle<<14); // set the FM duty cycle
+
+        if(pI2CHandle->I2CConfig.fm_duty_cycle==DUTY_2)
+        {
+            ccr_value = (RCC_GetPCLK1()/3*pI2CHandle->I2CConfig.speed);
+        }
+
+        else
+        {
+            ccr_value = (RCC_GetPCLK1()/25*pI2CHandle->I2CConfig.speed);
+        }
+
+    }
+
+    // set the ccr value
+    ccr_value = (ccr_value & 0x7FF);
+    pI2CHandle->pI2Cx->I2C_CRR |= (ccr_value<<0);
+
+
+
+    // configure the device address
+    pI2CHandle->pI2Cx->I2C_OAR1 |= (pI2CHandle->I2CConfig.own_address << 1);
+    pI2CHandle->pI2Cx->I2C_OAR1 |= (1 << 14); // should be 1 
+
+
+    // enable/disablr the ACK
+    if(pI2CHandle->I2CConfig.ack_control == I2C_ACK_ENABLE)
+    {
+        pI2CHandle->pI2Cx->I2C_CR1 |= (1<<10);
+    }
+
+    else
+    {
+        pI2CHandle->pI2Cx->I2C_CR1 &= ~(1<<10);
     }
 
     // configure the rise time
+    
 }
 
 

@@ -7,8 +7,8 @@
 
 typedef enum
 {
-    I2C_STANDARD_SPEED = 0, // 100 KHZ
-    I2C_STANDARD_FM = 1, // 400 KHZ
+    I2C_STANDARD_SPEED = 100000, // 100 KHZ
+    I2C_STANDARD_FM = 400000, // 400 KHZ
 }I2C_SPEED;
 
 
@@ -45,11 +45,11 @@ typedef struct
 
 
 void I2C_ClockControl(I2C_RegDef_t *pSPIx, uint8_t status);
-void I2C_Init(I2C_Handle_t *pSPIHandle);
+void I2C_Init(I2C_Handle_t *pI2CHandle);
 void I2C_DeInit(I2C_RegDef_t *pSPIx );
 void I2C_Enable(I2C_RegDef_t *pSPIx, uint8_t en_ds);
 
-void I2C_IRQHandler(I2C_Handle_t *pSPIHandle );
+void I2C_IRQHandler(I2C_Handle_t *pI2CHandle );
 void I2C_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN);
 void I2C_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
 
