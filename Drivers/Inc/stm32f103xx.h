@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include "stm32f103xx_rcc_driver.h"
+
 
 #define REGISTER_SIZE 32
 
@@ -231,6 +233,8 @@ typedef struct
     volatile uint32_t AFIO_MAPR2   ;//       
 }AFIO_RegDef_t;
 
+
+
 typedef struct
 {
 	volatile uint32_t STK_CTRL ;// 
@@ -238,6 +242,7 @@ typedef struct
     volatile uint32_t STK_VAL  ;// 
     volatile uint32_t STK_CALIB;// 
 }SYSTICK_RegDef_t;
+
 
 
 

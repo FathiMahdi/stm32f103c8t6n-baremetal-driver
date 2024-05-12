@@ -1,4 +1,6 @@
 "./Drivers/Src/stm32f103xx_gpio_driver.o"
+"./Drivers/Src/stm32f103xx_i2c_driver.o"
+"./Drivers/Src/stm32f103xx_rcc_driver.o"
 "./Drivers/Src/stm32f103xx_spi_driver.o"
 "./Drivers/Src/stm32f103xx_uart.o"
 "./Src/main.o"

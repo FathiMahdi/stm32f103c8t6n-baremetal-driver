@@ -9,12 +9,7 @@ void GPIOClockControl(GPIO_RegDef_t *pGPIOx, uint8_t status)
 {
     if(status==ENABLE)
     {
-        if(pGPIOx==AFIO)
-        {
-            AFIO_CLOCK_EN();
-        }
-
-        else if(pGPIOx == GPIOA)
+        if(pGPIOx == GPIOA)
         {
             GPIOA_CLOCK_EN();
         }
