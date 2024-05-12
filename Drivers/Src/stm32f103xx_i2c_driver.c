@@ -1,6 +1,12 @@
 #include "stm32f103xx_i2c_driver.h"
 
 
+static void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx);
+static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx);
+static void I2C_SendSlaveAddress(I2C_RegDef_t *pI2Cx, uint8_t SlaveADD);
+static void I2C_ClearADDRFlag(I2C_RegDef_t *pI2Cx);
+
+
 /// @brief 
 /// @param pSPIx 
 /// @param en_ds 
@@ -80,7 +86,7 @@ void I2C_Init(I2C_Handle_t *pI2CHandle)
     }
 
     // configure the rise time
-    
+
 }
 
 
@@ -173,3 +179,85 @@ void I2C_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
 }
 
 
+
+/// @brief 
+/// @param pI2CHandle 
+/// @param data 
+/// @param len 
+/// @param SlaveADD 
+void I2C_MasterSendData(I2C_Handle_t *pI2CHandle, uint8_t *data, uint16_t len, uint8_t SlaveADD)
+{
+    // generate the start condition
+    I2C_GenerateStartCondition(pI2CHandle->pI2Cx);
+
+    // confirm the start condition by reading the start bit
+    while(!(pI2CHandle->pI2Cx->I2C_SR1 & 0x1))
+
+    // send the address of the slave with w/r
+    I2C_SendSlaveAddress(pI2CHandle->pI2Cx, SlaveADD);
+
+    // confim the address by  reading the AADR
+    while(!(pI2CHandle->pI2Cx->I2C_SR1 & 0x2))
+
+    // clear the DDR flag
+    I2C_ClearADDRFlag(pI2CHandle->pI2Cx);
+
+    // send data until len = 0
+    while(len>0)
+    {   
+        while(!(pI2CHandle->pI2Cx->I2C_SR1 & 0x80));
+        pI2CHandle->pI2Cx->I2C_DR = *data;
+        data++;
+        len--;
+    }
+
+    // wait until txe 
+    while(!(pI2CHandle->pI2Cx->I2C_SR1 & 0x80));
+
+
+    // wait untill btf
+    while(!(pI2CHandle->pI2Cx->I2C_SR1 & 0x4));
+
+    // send stop bit
+    I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
+}
+
+
+
+
+/// @brief Generate I2C start condition
+/// @param pI2Cx 
+static void I2C_GenerateStartCondition(I2C_RegDef_t *pI2Cx)
+{
+    pI2Cx->I2C_CR1 |= (1<<8);
+}
+
+
+/// @brief Generate I2C start condition
+/// @param pI2Cx 
+static void I2C_GenerateStopCondition(I2C_RegDef_t *pI2Cx)
+{
+    pI2Cx->I2C_CR1 |= (1<<9);
+}
+
+
+/// @brief 
+/// @param pI2Cx 
+/// @param  
+static void I2C_SendSlaveAddress(I2C_RegDef_t *pI2Cx, uint8_t SlaveADD)
+{
+    SlaveADD = SlaveADD << 1;
+
+    SlaveADD &= ~(1); // clear the 8th bit
+
+    pI2Cx->I2C_DR = SlaveADD;
+
+}
+
+
+static void I2C_ClearADDRFlag(I2C_RegDef_t *pI2Cx)
+{
+    uint16_t sr1 = pI2Cx->I2C_SR1;
+    uint16_t sr2 = pI2Cx->I2C_SR1;
+
+}

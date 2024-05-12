@@ -54,6 +54,9 @@ void I2C_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EN);
 void I2C_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
 
 
+void I2C_MasterSendData(I2C_Handle_t *pI2CHandle, uint8_t *data, uint16_t len, uint8_t SlaveADD);
+
+
 
 
 
